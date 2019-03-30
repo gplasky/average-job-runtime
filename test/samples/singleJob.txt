@@ -1,0 +1,2 @@
+2018-01-01T00:00 - Operation ABC Start
+2018-01-01T00:01 - Operation ABC End

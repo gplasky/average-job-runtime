@@ -1,29 +1,31 @@
 import unittest
+from joblogparser import JobLogParser
 
-target = __import__("averageRuntime")
+class TestEmpty(unittest.TestCase):
 
-class averageRuntimeTest(unittest.TestCase):
+  def setUp(self):
+    self.jlp = JobLogParser('samples/empty.txt')
 
-  testFileDir = 'samples/'
-
-  def testEmptyFile(self):
-    result = target.averageRuntime(self.testFileDir + 'empty.txt')
+  def test_empty_file(self):
+    result = self.jlp.averageRuntime()
     self.assertEqual(result, 0)
 
-  # 1m
-  # 98m
-  # 75m
-  # 940m
-  # 77m
-  # == ==
-  # 238.2
-  #
-  def testInterleavedFile(self):
-    result = target.averageRuntime(self.testFileDir + 'interleavedJobs.txt')
-    self.assertEqual(result, 238.2)
+class TestInterleaved(unittest.TestCase):
 
-  def testSingleJob(self):
-    result = target.averageRuntime(self.testFileDir + 'singleJob.txt')
+  def setUp(self):
+    self.jlp = JobLogParser('samples/interleavedJobs.txt')
+
+  def test_interleaved_file(self):
+    result = self.jlp.averageRuntime()
+    self.assertEqual(result, 242.2)
+
+class TestSingle(unittest.TestCase):
+
+  def setUp(self):
+    self.jlp = JobLogParser('samples/singleJob.txt')
+  
+  def test_single_job(self):
+    result = self.jlp.averageRuntime()
     self.assertEqual(result, 1)
 
 
